@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.5-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      SECRET_KEY: "n=!&_k-pjcouiqfop1e%=9c06t=69x%r0&ux^4(woqxp&utlyu"
+
+volumes:
+  postgres_data:
